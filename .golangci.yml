@@ -4,6 +4,9 @@
 # language module — re-apply refreshes it. If you intend to diverge, declare an
 # override in .primus/primus.yaml so a required update surfaces the conflict
 # rather than silently overwriting your changes.
+#
+# golangci-lint v2 config schema (golangci-lint-action runs v2 in cicd-github).
+version: "2"
 run:
   timeout: 5m
 

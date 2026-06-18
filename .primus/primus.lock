@@ -2,15 +2,15 @@ apiVersion: primus/v3
 modules:
   - id: cicd-github
     version: 1.1.0
-    source: git::https://github.com/JarenDamm/primus-modules.git//cicd-github?ref=v0.7.0
-    sourceCommit: 70d1117b816453657b71139ea25a0717ed44f322
+    source: git::https://github.com/JarenDamm/primus-modules.git//cicd-github?ref=main
+    sourceCommit: 5b3515587439f541c0cfababfb603897d51fc791
     managed:
       - path: .github/workflows/ci.yml
-        hash: sha256:42cc6e62b31a511723063887db176a7a562200efdad702bbcb27fb9b99c2372b
+        hash: sha256:64f7b940f83dbdfbf4d85441c88dd2b6491248fdd2cb6e527ef3c6cddff9df2a
   - id: language-go-mcp
     version: 1.0.0
-    source: git::https://github.com/JarenDamm/primus-modules.git//language-go-mcp?ref=v0.7.0
-    sourceCommit: 70d1117b816453657b71139ea25a0717ed44f322
+    source: git::https://github.com/JarenDamm/primus-modules.git//language-go-mcp?ref=main
+    sourceCommit: 5b3515587439f541c0cfababfb603897d51fc791
     managed:
       - path: internal/app/app.go
         hash: sha256:35edb0012b0e108e6ea9103a0d42de84d3cb49d9e7a623d6c3bbca7171078826
@@ -21,16 +21,16 @@ modules:
       - path: .dockerignore
         hash: sha256:43d4ad7403f3ef3965bf44781bf5fdf2e579d17b0d6466498b95ec583cc4330a
       - path: .golangci.yml
-        hash: sha256:6d70778acfafb0d8d4a6a33df94a68ca93a20e173a4fe9bc8dbf78ed7397785f
+        hash: sha256:d850310bd7600f5bfab0f8d9950d3ad08cd6f0920cd173305efceb5b2353a778
       - path: Makefile
         hash: sha256:a64136a7e4975510159d6d8e6624d778a4ca6b59f2525058fa4d9364a6d74ff8
     scaffolded:
       - path: cmd/server/main.go
-        hash: sha256:e1960953273a5ab4642c0849713a2a328d860b277d76a678aed52804ee7fec54
+        hash: sha256:02bb676a54301b053cc80ac5ed88d907f0aa6d9a789e41440969c582870aecc1
       - path: internal/app/hello.go
         hash: sha256:e184e1677f239a48a3c2976d5bcca0e92fa7361bdd681fdbd45669db9a4da515
       - path: internal/app/hello_test.go
-        hash: sha256:4cde6046f62d27312e45d8a2f13060574e893824dfbfe00e365484ae1c014c90
+        hash: sha256:f7b8e1b8d5aba45e2f2abf99992f9122c1adb81ed32ad2edd43074b366a8ea8b
       - path: internal/config/config.go
         hash: sha256:a2fa549d6d0694b64b9567928ac0047fdb804a672ad913ff564cc6ccf4d8e87c
       - path: internal/logging/logging.go
@@ -49,4 +49,4 @@ modules:
       - path: .github/CODEOWNERS
         hash: sha256:8c3454a304a60a35aa953b3fc8bdb4b0e18c7ba3d13d6312a462620be01d4130
 inputsHash: sha256:be3c2ddc978ae9cc3494c6a9f5846c3989eaa0597ed5155e89db00f8395dd2ed
-generatedAt: "2026-06-18T16:39:05Z"
+generatedAt: "2026-06-18T17:56:19Z"

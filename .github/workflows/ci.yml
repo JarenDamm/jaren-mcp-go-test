@@ -24,8 +24,14 @@ jobs:
       - run: go build ./...
       - run: go test ./...
       # Lint config (.golangci.yml) is shipped by the language module; the
-      # workflow that runs it stays owned here (cicd-github).
-      - uses: golangci/golangci-lint-action@v6
+      # workflow that runs it stays owned here (cicd-github). golangci-lint v2
+      # is pinned: the binary must be built with a Go >= the module's go
+      # directive, and Foundations on Go 1.25+ (e.g. the mcp SDK requires it)
+      # break the older go1.24-built v1.x line. The language module ships a v2
+      # (`version: "2"`) .golangci.yml to match.
+      - uses: golangci/golangci-lint-action@v9
+        with:
+          version: v2.12.2
 
   primus-check-required:
     # Soft nag (issue #53): warns when a locked module is below its
