@@ -45,7 +45,7 @@ func TestMCP_HelloToolOverStreamableHTTP(t *testing.T) {
 	if err != nil {
 		t.Fatalf("client.Connect (initialize handshake): %v", err)
 	}
-	defer session.Close()
+	defer func() { _ = session.Close() }()
 
 	// The hello tool must show up in the advertised surface.
 	tools, err := session.ListTools(ctx, nil)
