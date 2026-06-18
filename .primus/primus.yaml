@@ -1,0 +1,11 @@
+apiVersion: primus/v3
+archetype: mcp
+language: go
+ci: github
+scp: github
+inputs:
+  go_version: "1.24"
+  language: go
+  maintainers:
+    - '@JarenDamm'
+  service_name: github.com/JarenDamm/jaren-mcp-go-test
