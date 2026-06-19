@@ -13,17 +13,19 @@
 FROM golang:1.26-alpine AS build
 WORKDIR /src
 
-# Capability modules contribute `require` lines into go.mod via merge
-# regions but do not ship a go.sum (sum tracking happens here at build
-# time, not at render time). `go mod tidy` materializes go.sum from the
-# rendered go.mod — including the official MCP Go SDK the Foundation
-# requires — before the build sees it.
+# go.mod and go.sum are committed derived artifacts (ADR-0018: primus captures
+# them from the verify step at apply time), so the build resolves against a
+# pinned, hash-verified graph — the official MCP Go SDK included — rather than
+# re-tidying at build time. `go mod download` fetches exactly what go.sum pins;
+# the build runs -mod=readonly so a stale lock fails the build loudly instead of
+# being silently rewritten.
 COPY . .
-RUN go mod tidy
+RUN go mod download
 
 # Static, stripped binary. CGO disabled so the binary runs in
 # distroless/static (no libc). The entrypoint lives at ./cmd/server.
 RUN CGO_ENABLED=0 GOOS=linux go build \
+    -mod=readonly \
     -trimpath \
     -ldflags="-s -w" \
     -o /out/app \

@@ -2,22 +2,22 @@ apiVersion: primus/v3
 modules:
   - id: cicd-github
     version: 1.1.0
-    source: git::https://github.com/JarenDamm/primus-modules.git//cicd-github?ref=main
-    sourceCommit: 29cfa5da280059ce42514f8437fe11aa4fd1fb2e
+    source: git::https://github.com/JarenDamm/primus-modules.git//cicd-github?ref=adr0018-derived-gomod-modules
+    sourceCommit: 849468b3c3b896d4127c69072102b5b9eb896b4e
     managed:
       - path: .github/workflows/ci.yml
-        hash: sha256:b568207a5fb6b3524ad4ee5dd38c72fd6e35de6d64944850b201afea0cd14dfd
+        hash: sha256:7542fbe3491e12e0480a105750434a8dfe2c553a5dd9dc37f1165c0ec3077d2f
   - id: language-go-mcp
     version: 1.0.0
-    source: git::https://github.com/JarenDamm/primus-modules.git//language-go-mcp?ref=main
-    sourceCommit: 29cfa5da280059ce42514f8437fe11aa4fd1fb2e
+    source: git::https://github.com/JarenDamm/primus-modules.git//language-go-mcp?ref=adr0018-derived-gomod-modules
+    sourceCommit: 849468b3c3b896d4127c69072102b5b9eb896b4e
     managed:
       - path: internal/app/app.go
         hash: sha256:3906a0069e1c05d57471f6873bdfb169ec1a46e24da4974b2b8cfbe2fd58bd45
       - path: internal/app/app_test.go
         hash: sha256:ad39b5580a1e17e9e12f25a0afb23414baff31aeb6799e93590696905d13d6b8
       - path: Dockerfile
-        hash: sha256:7b66d89ee77e0d243f9387780ab3fb69e41a0274c12b0bf207cbfd678b9d2414
+        hash: sha256:a27f0e3bce5d58982de2626a2fcb3b72d6b29992815c58ac026f8f7cf2f33d54
       - path: .dockerignore
         hash: sha256:43d4ad7403f3ef3965bf44781bf5fdf2e579d17b0d6466498b95ec583cc4330a
       - path: .gitattributes
@@ -27,7 +27,7 @@ modules:
       - path: .golangci.yml
         hash: sha256:d850310bd7600f5bfab0f8d9950d3ad08cd6f0920cd173305efceb5b2353a778
       - path: Makefile
-        hash: sha256:a64136a7e4975510159d6d8e6624d778a4ca6b59f2525058fa4d9364a6d74ff8
+        hash: sha256:a1f702b57f5616dc6fb9d968c1cc007c678b7aa45b19dea6b8d9707a368ade83
     scaffolded:
       - path: cmd/server/main.go
         hash: sha256:02bb676a54301b053cc80ac5ed88d907f0aa6d9a789e41440969c582870aecc1
@@ -41,10 +41,6 @@ modules:
         hash: sha256:8a453572f584db735b0a600a297c6cff623cf58f300ec486eab01cefe9e837e4
       - path: README.md
         hash: sha256:1a0704c0976fecd317337cc172da97d5cebf50a82841746e571390da8b204181
-    regions:
-      - file: go.mod
-        regionId: go-module
-        hash: sha256:1ec0d40d1185ef61c21a6efc403ef241f9db4fd357d65d6434eb435402605848
   - id: scp-github
     version: 1.0.0
     source: git::https://github.com/JarenDamm/primus-modules.git//scp-github?ref=v0.7.0
@@ -53,4 +49,4 @@ modules:
       - path: .github/CODEOWNERS
         hash: sha256:8c3454a304a60a35aa953b3fc8bdb4b0e18c7ba3d13d6312a462620be01d4130
 inputsHash: sha256:8fe69e52d1b911f9a366bca02712fa1f3186532eca672c7873e4a8d7f2b26e7d
-generatedAt: "2026-06-19T16:28:10Z"
+generatedAt: "2026-06-19T17:32:48Z"

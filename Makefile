@@ -5,7 +5,10 @@
 .PHONY: build test lint run tidy
 
 build:
-	go build ./...
+	# -mod=readonly builds against the committed go.mod + go.sum (derived
+	# artifacts, ADR-0018); run `make tidy` after changing imports to refresh
+	# them, then commit.
+	go build -mod=readonly ./...
 
 test:
 	go test ./...
