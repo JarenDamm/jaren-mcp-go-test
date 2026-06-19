@@ -10,7 +10,7 @@
 # matches the toolchain pinned in go.mod (rendered from the same
 # .Inputs.go_version input). Runtime is distroless/static:nonroot —
 # no shell, no package manager, baked-in nonroot user.
-FROM golang:1.24-alpine AS build
+FROM golang:1.26-alpine AS build
 WORKDIR /src
 
 # Capability modules contribute `require` lines into go.mod via merge

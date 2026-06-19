@@ -4,7 +4,7 @@ language: go
 ci: github
 scp: github
 inputs:
-  go_version: "1.24"
+  go_version: "1.26"
   language: go
   maintainers:
     - '@JarenDamm'

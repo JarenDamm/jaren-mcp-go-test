@@ -1,7 +1,7 @@
 // BEGIN MANAGED: go-module
 module github.com/JarenDamm/jaren-mcp-go-test
 
-go 1.24
+go 1.26
 
 // The official Model Context Protocol Go SDK is a Foundation dependency: the
 // managed internal/app seam imports it to construct the *mcp.Server and serve

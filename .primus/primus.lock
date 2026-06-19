@@ -3,21 +3,21 @@ modules:
   - id: cicd-github
     version: 1.1.0
     source: git::https://github.com/JarenDamm/primus-modules.git//cicd-github?ref=main
-    sourceCommit: 3de8cc0b8e6bdd7806c579da88943ec18ec64c4d
+    sourceCommit: 29cfa5da280059ce42514f8437fe11aa4fd1fb2e
     managed:
       - path: .github/workflows/ci.yml
         hash: sha256:b568207a5fb6b3524ad4ee5dd38c72fd6e35de6d64944850b201afea0cd14dfd
   - id: language-go-mcp
     version: 1.0.0
     source: git::https://github.com/JarenDamm/primus-modules.git//language-go-mcp?ref=main
-    sourceCommit: 3de8cc0b8e6bdd7806c579da88943ec18ec64c4d
+    sourceCommit: 29cfa5da280059ce42514f8437fe11aa4fd1fb2e
     managed:
       - path: internal/app/app.go
         hash: sha256:3906a0069e1c05d57471f6873bdfb169ec1a46e24da4974b2b8cfbe2fd58bd45
       - path: internal/app/app_test.go
         hash: sha256:ad39b5580a1e17e9e12f25a0afb23414baff31aeb6799e93590696905d13d6b8
       - path: Dockerfile
-        hash: sha256:c69bcae8ed0e22ccab95a1f5179c366871dcf70427fc4ac8c70d18b923d3148a
+        hash: sha256:7b66d89ee77e0d243f9387780ab3fb69e41a0274c12b0bf207cbfd678b9d2414
       - path: .dockerignore
         hash: sha256:43d4ad7403f3ef3965bf44781bf5fdf2e579d17b0d6466498b95ec583cc4330a
       - path: .gitattributes
@@ -44,7 +44,7 @@ modules:
     regions:
       - file: go.mod
         regionId: go-module
-        hash: sha256:7e1eba1a60449edb74dc6ba450616c2abe7ee7cdb8ef751e2b07ffbca886c1ef
+        hash: sha256:1ec0d40d1185ef61c21a6efc403ef241f9db4fd357d65d6434eb435402605848
   - id: scp-github
     version: 1.0.0
     source: git::https://github.com/JarenDamm/primus-modules.git//scp-github?ref=v0.7.0
@@ -52,5 +52,5 @@ modules:
     scaffolded:
       - path: .github/CODEOWNERS
         hash: sha256:8c3454a304a60a35aa953b3fc8bdb4b0e18c7ba3d13d6312a462620be01d4130
-inputsHash: sha256:be3c2ddc978ae9cc3494c6a9f5846c3989eaa0597ed5155e89db00f8395dd2ed
-generatedAt: "2026-06-19T16:07:33Z"
+inputsHash: sha256:8fe69e52d1b911f9a366bca02712fa1f3186532eca672c7873e4a8d7f2b26e7d
+generatedAt: "2026-06-19T16:28:10Z"
