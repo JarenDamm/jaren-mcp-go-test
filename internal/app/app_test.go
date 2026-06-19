@@ -35,15 +35,33 @@ func newTestApp() *App {
 	return a
 }
 
-func TestNew_MountsHealthAndReadyEndpoints(t *testing.T) {
+// getStatus issues an in-process GET against the App's mux and returns the
+// status code.
+func getStatus(a *App, path string) int {
+	req := httptest.NewRequest(http.MethodGet, path, nil)
+	rec := httptest.NewRecorder()
+	a.Mux.ServeHTTP(rec, req)
+	return rec.Code
+}
+
+func TestNew_HealthzAlwaysOK(t *testing.T) {
 	a := newTestApp()
-	for _, path := range []string{"/healthz", "/readyz"} {
-		req := httptest.NewRequest(http.MethodGet, path, nil)
-		rec := httptest.NewRecorder()
-		a.Mux.ServeHTTP(rec, req)
-		if rec.Code != http.StatusOK {
-			t.Errorf("GET %s = %d, want %d", path, rec.Code, http.StatusOK)
-		}
+	if code := getStatus(a, "/healthz"); code != http.StatusOK {
+		t.Errorf("GET /healthz = %d, want %d", code, http.StatusOK)
+	}
+}
+
+// TestReadyz_GatesOnReady asserts readiness is distinct from liveness: /readyz
+// reports 503 until the App is marked ready (Run does this after startAll) and
+// 200 afterwards, so a load balancer doesn't route to a replica still starting.
+func TestReadyz_GatesOnReady(t *testing.T) {
+	a := newTestApp()
+	if code := getStatus(a, "/readyz"); code != http.StatusServiceUnavailable {
+		t.Errorf("GET /readyz before ready = %d, want %d", code, http.StatusServiceUnavailable)
+	}
+	a.ready.Store(true)
+	if code := getStatus(a, "/readyz"); code != http.StatusOK {
+		t.Errorf("GET /readyz after ready = %d, want %d", code, http.StatusOK)
 	}
 }
 

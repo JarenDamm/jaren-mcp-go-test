@@ -1,0 +1,18 @@
+# Owner module: language-go-mcp
+# Managed by the language module — re-apply refreshes it. To diverge, declare an
+# override in .primus/primus.yaml so a required update surfaces the conflict
+# rather than silently overwriting your changes.
+
+# Compiled / test binaries
+*.exe
+*.test
+/bin/
+/server
+
+# Test & coverage output
+*.out
+coverage.*
+
+# Local environment overrides
+.env
+.env.*

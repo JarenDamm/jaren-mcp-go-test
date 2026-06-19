@@ -23,6 +23,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sync/atomic"
 	"syscall"
 	"time"
 
@@ -75,6 +76,11 @@ type App struct {
 	// its state, or append the OnStop from inside its OnStart only once the
 	// resource is acquired).
 	OnStop []func(context.Context) error
+	// ready gates /readyz: false until startAll completes, and flipped back to
+	// false when graceful shutdown begins so the load balancer drains this
+	// replica. Capability hooks in this package may also Store(false) to shed
+	// traffic while a dependency is degraded — it is safe for concurrent use.
+	ready atomic.Bool
 }
 
 // Registration is a capability's hook into the Foundation: it mutates the
@@ -114,6 +120,14 @@ func New(cfg *config.Config, logger *slog.Logger) *App {
 		_, _ = w.Write([]byte("ok"))
 	})
 	a.Mux.HandleFunc("GET /readyz", func(w http.ResponseWriter, _ *http.Request) {
+		// Readiness is distinct from liveness (/healthz): it reports whether the
+		// service should receive traffic, so it stays 503 until startup finishes
+		// and again once shutdown begins.
+		if !a.ready.Load() {
+			w.WriteHeader(http.StatusServiceUnavailable)
+			_, _ = w.Write([]byte("not ready"))
+			return
+		}
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte("ready"))
 	})
@@ -152,9 +166,17 @@ func Run(ctx context.Context, cfg *config.Config, logger *slog.Logger) error {
 	// Release resources on the way out, after the server has stopped.
 	defer a.shutdown()
 
+	// Resources are wired; report ready so the load balancer routes traffic.
+	a.ready.Store(true)
+
 	srv := &http.Server{
 		Addr:    cfg.Addr,
 		Handler: a.Mux,
+		// Bound slow/idle clients (gosec G112, Slowloris/CWE-400). WriteTimeout
+		// is intentionally left unset: the MCP streamable-HTTP transport opens a
+		// long-lived SSE stream on GET /mcp, and a write deadline would truncate it.
+		ReadHeaderTimeout: 10 * time.Second,
+		IdleTimeout:       120 * time.Second,
 	}
 
 	serveErr := make(chan error, 1)
@@ -172,6 +194,9 @@ func Run(ctx context.Context, cfg *config.Config, logger *slog.Logger) error {
 		return err
 	case <-ctx.Done():
 		logger.Info("shutdown signal received")
+		// Fail readiness first so the load balancer stops routing new requests
+		// while in-flight ones drain during srv.Shutdown below.
+		a.ready.Store(false)
 	}
 
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)

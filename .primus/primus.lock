@@ -3,27 +3,31 @@ modules:
   - id: cicd-github
     version: 1.1.0
     source: git::https://github.com/JarenDamm/primus-modules.git//cicd-github?ref=main
-    sourceCommit: 5b3515587439f541c0cfababfb603897d51fc791
+    sourceCommit: c18bb3f7422d46e878b4b73fd089da838aa9e6ee
     managed:
       - path: .github/workflows/ci.yml
-        hash: sha256:64f7b940f83dbdfbf4d85441c88dd2b6491248fdd2cb6e527ef3c6cddff9df2a
+        hash: sha256:fdec6f4e7cc6332df07ad264d15058c4b260ad98c3eb054081825492b120559e
   - id: language-go-mcp
     version: 1.0.0
     source: git::https://github.com/JarenDamm/primus-modules.git//language-go-mcp?ref=main
-    sourceCommit: 5b3515587439f541c0cfababfb603897d51fc791
+    sourceCommit: c18bb3f7422d46e878b4b73fd089da838aa9e6ee
     managed:
       - path: internal/app/app.go
-        hash: sha256:35edb0012b0e108e6ea9103a0d42de84d3cb49d9e7a623d6c3bbca7171078826
+        hash: sha256:3906a0069e1c05d57471f6873bdfb169ec1a46e24da4974b2b8cfbe2fd58bd45
       - path: internal/app/app_test.go
-        hash: sha256:cd223e7e942db32ea3720133df26a6e45a3f935233cc87bc3dd975d61e4fe979
+        hash: sha256:ad39b5580a1e17e9e12f25a0afb23414baff31aeb6799e93590696905d13d6b8
       - path: Dockerfile
-        hash: sha256:c69bcae8ed0e22ccab95a1f5179c366871dcf70427fc4ac8c70d18b923d3148a
+        hash: sha256:d573a03de719b53b5cf305a4cf1453e0310a4a4029e94bd01a5556007b25edeb
       - path: .dockerignore
         hash: sha256:43d4ad7403f3ef3965bf44781bf5fdf2e579d17b0d6466498b95ec583cc4330a
+      - path: .gitattributes
+        hash: sha256:fce4dc9424f111133a3d5fc25ad41d0ba4b091c0bcc462c93df6d282f38018d9
+      - path: .gitignore
+        hash: sha256:095a1632b49aad516896546089f48c0aa56c7a785ea8f0ec47f8f6a08f4b765b
       - path: .golangci.yml
         hash: sha256:d850310bd7600f5bfab0f8d9950d3ad08cd6f0920cd173305efceb5b2353a778
       - path: Makefile
-        hash: sha256:a64136a7e4975510159d6d8e6624d778a4ca6b59f2525058fa4d9364a6d74ff8
+        hash: sha256:e55a307a84c72a76208ddf689a938618d5ab64b762c1b6555adbfb5e52ccf43e
     scaffolded:
       - path: cmd/server/main.go
         hash: sha256:02bb676a54301b053cc80ac5ed88d907f0aa6d9a789e41440969c582870aecc1
@@ -32,11 +36,11 @@ modules:
       - path: internal/app/hello_test.go
         hash: sha256:f7b8e1b8d5aba45e2f2abf99992f9122c1adb81ed32ad2edd43074b366a8ea8b
       - path: internal/config/config.go
-        hash: sha256:a2fa549d6d0694b64b9567928ac0047fdb804a672ad913ff564cc6ccf4d8e87c
+        hash: sha256:1729d2de700899f29b5eec011c10ba30f8b7e6978db0735260537dc322a3428d
       - path: internal/logging/logging.go
-        hash: sha256:7793fa244d512823ab32a34ef7d94e2e425380bd51b58ff829594f2608035d4d
+        hash: sha256:8a453572f584db735b0a600a297c6cff623cf58f300ec486eab01cefe9e837e4
       - path: README.md
-        hash: sha256:bf39592f2752def543f9b4e0c21140faef9e28cb7a6a20ecccdbe9ea6416ee4d
+        hash: sha256:1a0704c0976fecd317337cc172da97d5cebf50a82841746e571390da8b204181
     regions:
       - file: go.mod
         regionId: go-module
@@ -49,4 +53,4 @@ modules:
       - path: .github/CODEOWNERS
         hash: sha256:8c3454a304a60a35aa953b3fc8bdb4b0e18c7ba3d13d6312a462620be01d4130
 inputsHash: sha256:be3c2ddc978ae9cc3494c6a9f5846c3989eaa0597ed5155e89db00f8395dd2ed
-generatedAt: "2026-06-18T17:56:19Z"
+generatedAt: "2026-06-19T16:03:22Z"

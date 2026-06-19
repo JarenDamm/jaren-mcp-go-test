@@ -1,0 +1,5 @@
+# Owner module: language-go-mcp
+# Enforce LF line endings on checkout. Windows clones with core.autocrlf=true
+# otherwise rewrite Go sources to CRLF and trip `gofmt -l`, and CRLF in shell
+# scripts breaks the `#!/bin/sh` shebang inside containers. Go tooling expects LF.
+* text=auto eol=lf

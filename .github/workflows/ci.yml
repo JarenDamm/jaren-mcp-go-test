@@ -16,13 +16,28 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
-      # go.sum isn't a managed file (the orchestrator's renderer is pure
-      # per ADR-0006 — no FS / network), so go.mod's `require` lines land
-      # without matching go.sum entries. `go mod tidy` regenerates the
-      # checksums on the runner before build/test run.
-      - run: go mod tidy
-      - run: go build ./...
-      - run: go test ./...
+      # go.sum is committed (ADR-0017: primus captures it from the verify step
+      # at apply time), so CI builds against a pinned, hash-verified graph.
+      # `go mod download` fetches exactly what go.sum pins; -mod=readonly fails
+      # the build on a stale sum instead of rewriting it.
+      - run: go mod download
+      - run: go build -mod=readonly ./...
+      # Supply-chain drift gate: the module cache matches go.sum (verify) and
+      # go.mod/go.sum are tidy (tidy -diff exits non-zero on any needed change),
+      # so a dependency edit that wasn't accompanied by a refreshed go.sum fails.
+      - name: dependencies tidy + verified
+        run: |
+          go mod verify
+          go mod tidy -diff
+      # Race detector: these Foundations are concurrent (goroutines, signal
+      # handling, a server shared across connections), so -race earns its keep.
+      # Needs CGO (gcc) — present on ubuntu-latest.
+      - run: go test -race ./...
+      # Known-CVE scan of the dependency tree (reachable-vuln analysis).
+      - name: govulncheck
+        run: |
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          govulncheck ./...
       # Lint config (.golangci.yml) is shipped by the language module; the
       # workflow that runs it stays owned here (cicd-github). golangci-lint v2
       # is pinned: the binary must be built with a Go >= the module's go
@@ -32,6 +47,11 @@ jobs:
       - uses: golangci/golangci-lint-action@v9
         with:
           version: v2.12.2
+      # Docker build sanity: builds the rendered multi-stage Dockerfile so
+      # base-image / go-directive drift (e.g. a go.mod floor the pinned
+      # toolchain can't satisfy) fails CI instead of a developer's machine.
+      - name: docker build (sanity)
+        run: docker build -t ci-build-check .
 
   primus-check-required:
     # Soft nag (issue #53): warns when a locked module is below its
