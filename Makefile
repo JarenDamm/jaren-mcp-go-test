@@ -5,9 +5,7 @@
 .PHONY: build test lint run tidy
 
 build:
-	# -mod=readonly builds against the committed go.sum (ADR-0017); run
-	# `make tidy` after changing deps to refresh go.sum, then commit it.
-	go build -mod=readonly ./...
+	go build ./...
 
 test:
 	go test ./...
